@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>,
+    <style>
+        h1{
+            text-align: center;
+        }
+        body{
+            background: wheat;
+        }
+        #app{
+            display: flex;
+            background: aliceblue;
+        }
+        img{
+            border-radius: 10px;
+            width: 80%;
+            margin: auto;
+            border: solid 1px gray;
+        }
+        picture{
+            padding: 10px;
+            margin: 20px;
+            display: flex;
+            text-align: center;
+            font-size: 24px;
+            flex-direction: column;
+            box-shadow: 0 0 15px #999;
+            border-radius: 10px;
+            width: 200px;
+            background: antiquewhite;
+        }
+        picture h3{
+            text-align: center;
+        }
+        picture.is-small{
+            width: 150px;
+        }
+        picture.is-large{
+            width: 250px;
+        }
+        img.disable{
+            opacity: 50%;
+        }
+
+        span{
+            font-size: 32px;
+        }
+        button{
+            width: 40px;
+            height: 40px;
+            font-size: 32px;
+            margin: 20px;
+        }
+    </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>WEBSTERM</h1>
+    <div id="app">
+
+    </div>
+
+    <script type="text/babel">
+        const $app = document.getElementById('app');
+        const useState = React.useState
+
+
+        const Avatar = ({id, name = 'John', lastname = 'Doe', size}) => {
+            const [enabled, setEnable] = useState(true);
+
+            let pictureClassName = "";
+
+            if (size === 'small'){
+                pictureClassName = 'is-small';
+            }else if (size === 'large'){
+                pictureClassName = 'is-large'
+            }
+
+            const src = `https://randomuser.me/api/portraits/lego/${id}.jpg`;
+            const className = enabled ? "" : 'disable'
+            return (
+                <picture onClick={()=> setEnable(!enabled)} className={pictureClassName}>{
+                    id ? (
+                        <img className={className} src={src}/>
+                    ) : <img className="disable" src="https://randomuser.me/api/portraits/lego/1.jpg"/>
+                }
+                    <h3>{name}</h3>
+                    <h3>{lastname}</h3>
+                </picture>
+            );
+        }
+
+        function Counter (){
+
+            const [counterValue, UpdateCounter] = useState(0)
+
+            return (
+                <React.Fragment>
+                    <button onClick={()=>{
+                        UpdateCounter(counterValue - 1)
+                    }}>-</button>
+                    <span>{counterValue}</span>
+                    <button onClick={()=>{
+                        UpdateCounter(counterValue + 1)
+                    }}>+</button>
+                </React.Fragment>
+            )
+        }
+
+        ReactDOM.render(
+            <div>
+                <Avatar id={7} name={'Paco'} lastname={'Benedicto'} size={'small'}/>
+                <Avatar id={2} name={'Ricky'} lastname={'Benedicto'}/>
+                <Avatar id={8} name={'Luca'} lastname={'Romano'} size={'large'}/>
+                <Avatar size={'small'}/>
+                <Counter/>
+            </div>,
+        $app);
+
+    </script>
+</body>
+</html>
